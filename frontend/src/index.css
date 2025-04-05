@@ -1,23 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-.input-field {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    width: 100%;
-  }
-  
-  .bg-gray-100 {
-    background-color: #f7f7f7;
-  }
-  
+
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

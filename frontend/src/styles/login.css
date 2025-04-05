@@ -1,0 +1,96 @@
+/* Reset some base styles */
+body, h1, h2, p, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Full screen background */
+  .login-page {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #cce5ff, #99ccff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  /* Card container */
+  .login-container {
+    background-color: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  /* Title styling */
+  .login-title {
+    font-size: 28px;
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Error text */
+  .error-text {
+    color: #e74c3c;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  /* Form styling */
+  .form input,
+  .form button,
+  .form select {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s;
+  }
+  
+  /* Input hover/focus */
+  .form input:focus {
+    border-color: #3399ff;
+    box-shadow: 0 0 5px rgba(51, 153, 255, 0.5);
+  }
+  
+  /* Button styling */
+  .form button {
+    background-color: #3399ff;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form button:hover {
+    background-color: #007acc;
+  }
+  
+  /* Switch link text */
+  .switch-link {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 15px;
+  }
+  
+  .switch-link a {
+    color: #3399ff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .switch-link a:hover {
+    text-decoration: underline;
+  }
+  

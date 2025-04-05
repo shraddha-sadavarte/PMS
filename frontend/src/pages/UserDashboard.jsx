@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getTasks } from "../api/taskApi";
+import '../styles/user.css';
 
 const UserDashboard = ({ token }) => {
   const [tasks, setTasks] = useState([]);
@@ -13,13 +14,24 @@ const UserDashboard = ({ token }) => {
   }, [token]);
 
   return (
-    
-    <div>
-      <div className="p-4">Welcome to the User Dashboard!</div>;
-      <h2>Your Tasks</h2>
-      {tasks.map((task) => (
-        <div key={task._id}>{task.title}</div>
-      ))}
+    <div className="user-page">
+      <div className="user-container">
+        <h1 className="user-title">Welcome to Your Dashboard!</h1>
+        <h2 className="subheading">Your Assigned Tasks</h2>
+        <div className="task-grid">
+          {tasks.length > 0 ? (
+            tasks.map((task) => (
+              <div key={task._id} className="task-card">
+                <h3>{task.title}</h3>
+                <p>{task.description}</p>
+                <p><strong>Status:</strong> {task.status}</p>
+              </div>
+            ))
+          ) : (
+            <p>No tasks assigned yet.</p>
+          )}
+        </div>
+      </div>
     </div>
   );
 };

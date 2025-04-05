@@ -1,0 +1,56 @@
+/* General Navbar Styling */
+.navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0.75rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo or Title */
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Nav Links Container */
+.navbar .nav-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Links Style */
+.navbar .nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.navbar .nav-links a:hover {
+  color: #007BFF;
+}
+
+/* Logout Button Style */
+.navbar .logout-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.navbar .logout-button:hover {
+  background-color: #d32f2f;
+}

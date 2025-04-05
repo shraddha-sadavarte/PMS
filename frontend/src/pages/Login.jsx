@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import '../styles/login.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -15,51 +16,28 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
-      localStorage.setItem("token", res.data.accessToken);
-      localStorage.setItem("role", res.data.role);
-
-      // Redirect based on role
-      if (res.data.role === "admin") {
-        navigate("/admin-dashboard");
-      } else {
-        navigate("/user-dashboard");
-      }
+      const token = res.data.accessToken;
+      const role = res.data.role;
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+      if (role === "admin") navigate("/admin-dashboard");
+      else navigate("/user-dashboard");
     } catch (err) {
       setError(err.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white p-8 shadow-lg rounded-lg w-96">
-        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-          <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
-            Login
-          </button>
+    <div className="login-page">
+      <div className="login-container">
+        <h2 className="login-title">Login</h2>
+        {error && <p className="error-text">{error}</p>}
+        <form onSubmit={handleSubmit} className="form">
+          <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+          <button type="submit">Login</button>
         </form>
-        <p className="text-sm text-center mt-2">
-          New user? <Link to="/register" className="text-blue-500">Register here</Link>
-        </p>
+        <p className="switch-link">Don't have an account? <Link to="/register">Register here</Link></p>
       </div>
     </div>
   );
