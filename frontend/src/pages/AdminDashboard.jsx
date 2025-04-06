@@ -31,6 +31,13 @@ const AdminDashboard = ({ token }) => {
             <p>No projects found.</p>
           )}
         </div>
+        <button className="logout-button" onClick={() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("role");
+          window.location.href = "/login"; // redirect to login
+        }}>
+          Logout
+        </button>
       </div>
     </div>
   );
