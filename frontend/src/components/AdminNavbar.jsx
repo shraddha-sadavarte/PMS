@@ -4,14 +4,22 @@ import "../styles/navbar.css";
 
 const AdminNavbar = () => {
   return (
-    <nav className="admin-navbar">
-      <div className="admin-navbar-brand">Admin Panel</div>
-      <ul className="admin-navbar-links">
-        <li><Link to="/admin-dashboard">Dashboard</Link></li>
-        <li><Link to="/projects">Projects</Link></li>
-        <li><Link to="/users">Users</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
+    <nav className="navbar">
+      <div className="logo">Admin Panel</div>
+      <div className="nav-links">
+        <Link to="/admin-dashboard">Dashboard</Link>
+        <Link to="/projects">Projects</Link>
+        <Link to="/users">Users</Link>
+        <button
+          className="logout-button"
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </nav>
   );
 };

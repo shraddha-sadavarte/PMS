@@ -4,13 +4,21 @@ import "../styles/navbar.css";
 
 const UserNavbar = () => {
   return (
-    <nav className="user-navbar">
-      <div className="user-navbar-brand">User Panel</div>
-      <ul className="user-navbar-links">
-        <li><Link to="/user-dashboard">Dashboard</Link></li>
-        <li><Link to="/tasks">Tasks</Link></li>
-        <li><Link to="/logout">Logout</Link></li>
-      </ul>
+    <nav className="navbar">
+      <div className="logo">User Panel</div>
+      <div className="nav-links">
+        <Link to="/user-dashboard">Dashboard</Link>
+        <Link to="/tasks">Tasks</Link>
+        <button
+          className="logout-button"
+          onClick={() => {
+            localStorage.clear();
+            window.location.href = "/login";
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </nav>
   );
 };
