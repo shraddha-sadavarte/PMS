@@ -1,13 +1,12 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/auth";
+import BASE_URL from "./config";
 
 export const registerUser = async (userData) => {
-  return axios.post(`${API_URL}/register`, userData);
+  return axios.post(`${BASE_URL}/auth/register`, userData);
 };
 
 export const loginUser = async (userData) => {
-  return axios.post(`${API_URL}/login`, userData);
+  return axios.post(`${BASE_URL}/auth/login`, userData);
 };
 
 export const logoutUser = () => {
@@ -16,7 +15,7 @@ export const logoutUser = () => {
 };
 
 export const getUserProfile = async (token) => {
-  return axios.get(`${API_URL}/profile`, {
+  return axios.get(`${BASE_URL}/auth/profile`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

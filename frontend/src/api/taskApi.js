@@ -1,15 +1,14 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:5000/api/tasks";
+import BASE_URL from "./config";
 
 export const getTasks = async (token) => {
-  return axios.get(API_URL, {
+  return axios.get(`${BASE_URL}/tasks`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const createTask = async (data, token) => {
-  return axios.post(API_URL, data, {
+  return axios.post(`${BASE_URL}/tasks`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

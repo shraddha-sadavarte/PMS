@@ -8,8 +8,15 @@ const AdminDashboard = ({ token }) => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await getProjects(token);
-      setProjects(response.data);
+      const token = localStorage.getItem("token");
+        if(token){
+          try{
+            const response = await getProjects(token);
+            setProjects(response.data);
+          } catch(error){
+            console.error("Error fetching projects: ", error);
+          }
+        }
     }
     fetchData();
   }, [token]);
