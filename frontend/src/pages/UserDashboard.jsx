@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { getTasks } from "../api/taskApi";
+import { getProjects } from "../api/projectApi";
 import UserNavbar from "../components/UserNavbar";
-import '../styles/user.css';
+import "../styles/user.css";
 
-const UserDashboard = ({ token }) => {
-  const [tasks, setTasks] = useState([]);
+const UserDashboard = () => {
+  const [projects, setProjects] = useState([]);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    async function fetchData() {
-      const response = await getTasks(token);
-      setTasks(response.data);
-    }
-    fetchData();
+    const fetchProjects = async () => {
+      try {
+        const res = await getProjects(token);
+        setProjects(res.data);
+      } catch (err) {
+        console.error("Error fetching user projects:", err);
+      }
+    };
+    fetchProjects();
   }, [token]);
 
   return (
@@ -20,29 +25,20 @@ const UserDashboard = ({ token }) => {
       <div className="user-page">
         <div className="user-container">
           <h1 className="user-title">Welcome to Your Dashboard!</h1>
-          <h2 className="subheading">Your Assigned Tasks</h2>
+          <h2 className="subheading">Your Assigned Projects</h2>
           <div className="task-grid">
-            {tasks.length > 0 ? (
-              tasks.map((task) => (
-                <div key={task._id} className="task-card">
-                  <h3>{task.title}</h3>
-                  <p>{task.description}</p>
-                  <p><strong>Status:</strong> {task.status}</p>
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <div key={project._id} className="task-card">
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <p><strong>Deadline:</strong> {new Date(project.deadline).toLocaleDateString()}</p>
                 </div>
               ))
             ) : (
-              <p>No tasks assigned yet.</p>
+              <p>No projects assigned.</p>
             )}
           </div>
-          {/* <button
-            className="logout-button"
-            onClick={() => {
-              localStorage.clear();
-              window.location.href = "/login";
-            }}
-          >
-            Logout
-          </button> */}
         </div>
       </div>
     </>
