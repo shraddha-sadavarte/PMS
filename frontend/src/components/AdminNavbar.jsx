@@ -10,6 +10,7 @@ const AdminNavbar = () => {
         <Link to="/admin-dashboard">Dashboard</Link>
         <Link to="/projects">Projects</Link>
         <Link to="/users">Users</Link>
+        <Link to="/admin-tasks">All Tasks</Link>
         <button
           className="logout-button"
           onClick={() => {

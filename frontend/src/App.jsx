@@ -4,8 +4,9 @@ import Login from "./pages/Login";
 import UserDashboard from "./pages/UserDashboard";
 import AdminDashboard from "./pages/AdminDashboard";
 import Projects from "./components/projects/Projects";
-import Tasks from "./components/tasks/Tasks";
+import Tasks from "./pages/Tasks";
 import Users from "./pages/Users";
+import AdminTasks from "./pages/AdminTasks";
 
 const isAuthenticated = () => !!localStorage.getItem("token");
 const userRole = () => localStorage.getItem("role");
@@ -26,6 +27,7 @@ function App() {
         <Route path="/admin-dashboard" element={isAuthenticated() && userRole() === "admin" ? <AdminDashboard /> : <Navigate to="/login" />} />
         <Route path="/projects" element={isAuthenticated() && userRole() === "admin" ? <Projects /> : <Navigate to="/login" />} />
         <Route path="/users" element={isAuthenticated() && userRole() === "admin" ? <Users /> : <Navigate to="/login" />} />
+        <Route path="/admin-tasks" element={<AdminTasks/>} />
       </Routes>
     </Router>
   );

@@ -1,0 +1,38 @@
+.admin-tasks {
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .admin-tasks h2 {
+    text-align: center;
+    color: #222;
+    margin-bottom: 2rem;
+  }
+  
+  .admin-tasks ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-tasks li {
+    background: #f1f1f1;
+    margin-bottom: 1.25rem;
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 5px solid #007bff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+  }
+  
+  .admin-tasks h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #007bff;
+  }
+  
+  .admin-tasks p {
+    margin: 0.5rem 0;
+    color: #444;
+  }
+  

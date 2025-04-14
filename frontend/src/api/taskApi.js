@@ -12,3 +12,9 @@ export const createTask = async (data, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const updateTaskStatus = async (taskId, status, token) => {
+  return axios.put(`${BASE_URL}/tasks/${taskId}`, { status }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

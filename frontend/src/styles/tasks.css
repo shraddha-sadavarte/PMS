@@ -1,19 +1,43 @@
-.tasks-page {
-    padding: 2rem;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .task-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-  }
-  
-  .task-item {
-    border: 1px solid #ccc;
-    padding: 1rem;
-    border-radius: 6px;
-    background: #f9f9f9;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
+.task-page {
+  padding: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.task-page h2 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.task-page ul {
+  list-style: none;
+  padding: 0;
+}
+
+.task-page li {
+  background: #f9f9f9;
+  margin-bottom: 1rem;
+  padding: 1.25rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.task-page h3 {
+  margin: 0 0 0.5rem;
+  color: #007bff;
+}
+
+.task-page p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.task-page select {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-top: 0.75rem;
+  font-size: 1rem;
+}
