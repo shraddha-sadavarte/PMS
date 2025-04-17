@@ -19,7 +19,7 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const projectRes = await getProjects(token);
+        const projectRes = await getProjects(token, true);
         setProjects(projectRes.data);
         const userRes = await getUsers(token);
         console.log("Fetched users: ",userRes.data);
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
       await createProject(formData, token);
       alert("Project created successfully!");
       setFormData({ name: "", description: "", deadline: "", assignedTo: [] });
-      const updated = await getProjects(token);
+      const updated = await getProjects(token, true);
       setProjects(updated.data);
     } catch (err) {
       console.error("Error creating project:", err);
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
               ))}
             </select>
 
-            <button type="submit">Create Project</button>
+            <button type="submit" >Create Project</button>
           </form>
 
           <h2 className="subheading">All Projects</h2>

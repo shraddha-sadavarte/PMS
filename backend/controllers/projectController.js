@@ -26,16 +26,10 @@ export const getUserProjects = async (req, res) => {
     const userId = req.user.id;
 
     const projects = await Project.find({ assignedTo: userId })
-      .populate("progress.user", "name email")
-      .populate("assignedTo", "name");
+      .populate("progress.user", "username email")
+      .populate("assignedTo", "username");
 
-    // Optionally include logged-in user ID for frontend
-    const modifiedProjects = projects.map(p => ({
-      ...p.toObject(),
-      loggedInUserId: userId,
-    }));
-
-    res.status(200).json(modifiedProjects);
+    res.status(200).json(projects);
   } catch (err) {
     res.status(500).json({ error: "Failed to fetch user projects", details: err.message });
   }
