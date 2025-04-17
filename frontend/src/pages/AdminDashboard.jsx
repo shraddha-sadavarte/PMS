@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProjects, createProject } from "../api/projectApi";
-import { getUsers } from "../api/userApi"; // Create this API
+import { getUsers } from "../api/userApi";
 import AdminNavbar from "../components/AdminNavbar";
 import "../styles/admin.css";
 
@@ -11,7 +11,7 @@ const AdminDashboard = () => {
     name: "",
     description: "",
     deadline: "",
-    assignedTo: "",
+    assignedTo: [],
   });
 
   const token = localStorage.getItem("token");
@@ -22,6 +22,7 @@ const AdminDashboard = () => {
         const projectRes = await getProjects(token);
         setProjects(projectRes.data);
         const userRes = await getUsers(token);
+        console.log("Fetched users: ",userRes.data);
         setUsers(userRes.data);
       } catch (err) {
         console.error("Error loading data:", err);
@@ -31,18 +32,32 @@ const AdminDashboard = () => {
   }, [token]);
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    const { name, value, options } = e.target;
+  
+    if (name === "assignedTo") {
+      const selectedOptions = Array.from(options)
+        .filter(option => option.selected)
+        .map(option => option.value);
+  
+      setFormData((prev) => ({
+        ...prev,
+        [name]: selectedOptions, // array of selected user IDs
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await createProject(formData, token);
       alert("Project created successfully!");
-      setFormData({ name: "", description: "", deadline: "", assignedTo: "" });
+      setFormData({ name: "", description: "", deadline: "", assignedTo: [] });
       const updated = await getProjects(token);
       setProjects(updated.data);
     } catch (err) {
@@ -62,12 +77,13 @@ const AdminDashboard = () => {
             <input type="text" name="name" placeholder="Project Name" value={formData.name} onChange={handleChange} required />
             <textarea name="description" placeholder="Description" value={formData.description} onChange={handleChange} required />
             <input type="date" name="deadline" value={formData.deadline} onChange={handleChange} required />
-            <select name="assignedTo" value={formData.assignedTo} onChange={handleChange} required>
-              <option value="">Assign to User</option>
+            
+            <select name="assignedTo" multiple value={formData.assignedTo} onChange={handleChange} required>
               {users.map((user) => (
-                <option key={user._id} value={user._id}>{user.name}</option>
+                <option key={user._id} value={user._id}>{user.username}</option>
               ))}
             </select>
+
             <button type="submit">Create Project</button>
           </form>
 
@@ -78,6 +94,19 @@ const AdminDashboard = () => {
                 <h3>{project.name}</h3>
                 <p>{project.description}</p>
                 <p><strong>Deadline:</strong> {new Date(project.deadline).toLocaleDateString()}</p>
+                <h4>Progress:</h4>
+                <ul>
+                  {project.progress && project.progress.length > 0 ? (
+                  project.progress.map((p) => (
+                  <li key={p.user._id}>
+                    {p.user.username}: {p.percent}%
+                  </li>
+                  ))
+                ) : (
+                 <li>No progress available</li>
+                 )}
+                </ul>
+
               </div>
             ))}
           </div>

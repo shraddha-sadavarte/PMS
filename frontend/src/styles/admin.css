@@ -110,6 +110,13 @@
   .project-form button:hover {
     background-color: #0056b3;
   }
+
+  select[multiple] {
+    min-height: 100px;
+    border: 1px solid #ccc;
+    padding: 5px;
+  }
+  
   
   
   
