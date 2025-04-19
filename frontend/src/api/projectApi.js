@@ -25,3 +25,12 @@ export const updateProjectProgress = async (projectId, percent, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+//update project by id
+export const updateProjectById = async (id, data, token) => {
+  return await axios.put(`${BASE_URL}/projects/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};

@@ -39,8 +39,8 @@ export const getUserProjects = async (req, res) => {
 export const getAllProjects = async (req, res) => {
   try {
     const projects = await Project.find()
-      .populate("progress.user", "name email")
-      .populate("assignedTo", "name");
+      .populate("progress.user", "username email")
+      .populate("assignedTo", "username");
 
     res.status(200).json(projects);
   } catch (err) {
@@ -67,5 +67,23 @@ export const updateProjectProgress = async (req, res) => {
     res.status(200).json({ message: "Progress updated successfully" });
   } catch (err) {
     res.status(500).json({ error: "Failed to update progress", details: err.message });
+  }
+};
+
+//update project
+export const updateProject = async (req,res) => {
+  try{
+    const {id} = req.params;
+    const {name, description, deadline, assignedTo} = req.body;
+
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
+      {name, description, deadline, assignedTo},
+      {new:true}
+    ). populate("progress.user", "username");
+
+    res.json(updatedProject);
+  } catch(error) {
+    res.status(500).json({message: "Failed to update project", error});
   }
 };
