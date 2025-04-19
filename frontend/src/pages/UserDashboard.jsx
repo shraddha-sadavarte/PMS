@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getProjects, updateProjectProgress } from "../api/projectApi";
+import { getUserById } from "../api/userApi";
 import UserNavbar from "../components/UserNavbar";
 import "../styles/user.css";
 import { jwtDecode } from "jwt-decode";
@@ -7,6 +8,7 @@ import { jwtDecode } from "jwt-decode";
 const UserDashboard = () => {
   const [projects, setProjects] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -18,19 +20,22 @@ const UserDashboard = () => {
 
     try {
       const decoded = jwtDecode(token);
-      setUserId(decoded.id);
+      const id = decoded.id;
+      setUserId(id);
 
-      // Fetch projects after decoding
-      const fetchProjects = async () => {
+      const fetchUserAndProjects = async () => {
         try {
+          const userRes = await getUserById(id, token);
+          setUsername(userRes.data.username);
+
           const res = await getProjects(token);
           setProjects(res.data);
         } catch (err) {
-          console.error("Error fetching user projects:", err);
+          console.error("Error fetching user/projects:", err);
         }
       };
 
-      fetchProjects();
+      fetchUserAndProjects();
     } catch (err) {
       console.error("Invalid token:", err.message);
     }
@@ -52,7 +57,7 @@ const UserDashboard = () => {
       <UserNavbar />
       <div className="user-page">
         <div className="user-container">
-          <h1 className="user-title">Your Dashboard</h1>
+          <h1 className="user-title">Welcome, {username}!</h1>
           <h2 className="subheading">Assigned Projects</h2>
           <div className="task-grid">
             {projects.map((project) => {
