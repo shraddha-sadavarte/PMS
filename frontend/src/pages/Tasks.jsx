@@ -1,43 +1,69 @@
 import { useEffect, useState } from "react";
-import { getTasks, updateTaskStatus } from "../api/taskApi";
-import '../styles/tasks.css';
+import { getProjects } from "../api/projectApi";
+import { jwtDecode } from "jwt-decode";
+import UserNavbar from "../components/UserNavbar";
+import "../styles/user.css";
 
 const Tasks = () => {
-  const [tasks, setTasks] = useState([]);
-  const token = localStorage.getItem("token");
-
-  const handleStatusChange = async (taskId, newStatus) => {
-    await updateTaskStatus(taskId, newStatus, token);
-    const updated = tasks.map(task =>
-      task._id === taskId ? { ...task, status: newStatus } : task
-    );
-    setTasks(updated);
-  };
+  const [completedProjects, setCompletedProjects] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    getTasks(token).then((res) => setTasks(res.data));
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    const { id } = jwtDecode(token);
+    setUserId(id);
+
+    const fetchProjects = async () => {
+      try {
+        const res = await getProjects(token);
+        const filtered = res.data.filter((project) => {
+          const assigned = project.assignedTo || [];
+          const userAssigned = Array.isArray(assigned) && assigned.some((user) =>
+            typeof user === "object" ? user._id === id : user === id
+          );
+
+          const progress = project.progress || [];
+          const userProgress = progress.find((p) => p.user._id === id);
+          return userAssigned && userProgress?.percent === 100;
+        });
+
+        setCompletedProjects(filtered);
+      } catch (err) {
+        console.error("Error loading completed tasks:", err);
+      }
+    };
+
+    fetchProjects();
   }, []);
 
   return (
-    <div className="task-page">
-      <h2>Your Tasks</h2>
-      <ul>
-        {tasks.map(task => (
-          <li key={task._id}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-            <select
-              value={task.status}
-              onChange={(e) => handleStatusChange(task._id, e.target.value)}
-            >
-              <option value="Not Started">Not Started</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <UserNavbar />
+      <div className="user-page">
+        <div className="user-container">
+          <h1 className="user-title">My Completed Tasks</h1>
+          {completedProjects.length === 0 ? (
+            <p>No completed tasks yet.</p>
+          ) : (
+            <div className="task-grid">
+              {completedProjects.map((project) => (
+                <div key={project._id} className="task-card">
+                  <h3>{project.name}</h3>
+                  <p>{project.description}</p>
+                  <p>
+                    <strong>Deadline:</strong>{" "}
+                    {new Date(project.deadline).toLocaleDateString()}
+                  </p>
+                  <p><strong>Status:</strong> ✅ Completed</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
