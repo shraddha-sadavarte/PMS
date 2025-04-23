@@ -14,14 +14,22 @@ export const register = async (req,res) => {
     }
 };
 
-export const login = async(req,res) => {
-    try{
-        const {email, password} = req.body;
-        const user = await User.findOne({email});
-        if(!user) return res.status(400).json({message: "User not found"});
+export const login = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log("Login attempt for email:", email); // <--- ADD THIS LOG
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            console.log("User not found for email:", email); // <--- ADD THIS LOG
+            return res.status(400).json({ message: "User not found" });
+        }
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if(!isMatch) return res.status(400).json({message: "Invalid Credentials"});
+        if (!isMatch) {
+            console.log("Password does not match for user:", email); // <--- ADD THIS LOG
+            return res.status(400).json({ message: "Invalid Credentials" });
+        }
 
         const accessToken = jwt.sign(
             {
@@ -34,8 +42,11 @@ export const login = async(req,res) => {
             }
         );
 
-        res.json({accessToken, role: user.role});
+        console.log("Login successful for user:", email, " - Token:", accessToken); // <--- ADD THIS LOG
+        res.json({ accessToken, role: user.role });
+
     } catch (err) {
-        res.status(500).json({message: err.message});
+        console.error("Login error:", err); // Keep this log
+        res.status(500).json({ message: "Login failed" });
     }
 };
