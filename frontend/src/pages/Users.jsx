@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import '../styles/users.css';
+import AdminNavbar from "../components/AdminNavbar";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -15,6 +16,8 @@ const Users = () => {
   }, []);
 
   return (
+    <>
+    <AdminNavbar />
     <div className="users-page">
       <h2>All Users</h2>
       <div className="user-list">
@@ -27,6 +30,7 @@ const Users = () => {
         )) : <p>No users found.</p>}
       </div>
     </div>
+    </>
   );
 };
 

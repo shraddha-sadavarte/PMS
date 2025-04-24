@@ -1,3 +1,4 @@
+// src/pages/Login.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,40 +18,32 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
-    console.log("Frontend: Form Data submitted:", formData);
-
     try {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
-      console.log("Frontend: API Response:", res.data);
-      const token = res.data.accessToken;
-      const role = res.data.role;
-      console.log("Frontend: Token received:", token);
-      console.log("Frontend: Role received:", role);
+      const { accessToken: token, role } = res.data;
 
       if (token && role) {
-        console.log("Frontend: Token and role are valid.");
+        // Store token and role
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
-        console.log("Frontend: Token and role stored in localStorage.");
-        setFormData({ email: "", password: "" });
-        console.log("Frontend: Form data reset.");
 
-        if (role === "admin") {
-          console.log("Frontend: Navigating to /admin-dashboard");
-          navigate("/admin-dashboard", { replace: true });
-          console.log("Frontend: Navigation to /admin-dashboard complete.");
-        } else {
-          console.log("Frontend: Navigating to /user-dashboard");
-          navigate("/user-dashboard", { replace: true });
-          console.log("Frontend: Navigation to /user-dashboard complete.");
-        }
+        // Optional short delay to ensure state/localStorage updates are settled
+        setTimeout(() => {
+          setFormData({ email: "", password: "" });
+
+          // Navigate based on role
+          if (role === "admin") {
+            navigate("/admin-dashboard", { replace: true });
+          } else {
+            navigate("/user-dashboard", { replace: true });
+          }
+        }, 100); // 100ms delay helps in some edge cases
       } else {
-        setError("Frontend: Invalid response from server (missing token or role).");
-        console.log("Frontend: Invalid response from server.");
+        setError("Invalid response from server. Please try again.");
       }
     } catch (err) {
-      console.error("Frontend: Login Error:", err);
-      setError(err.response?.data?.message || "Frontend: Login failed");
+      console.error("Login error:", err);
+      setError(err.response?.data?.message || "Login failed. Please try again.");
     }
   };
 

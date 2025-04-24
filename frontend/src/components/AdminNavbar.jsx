@@ -8,7 +8,7 @@ const AdminNavbar = () => {
       <div className="logo">Admin Panel</div>
       <div className="nav-links">
         <Link to="/admin-dashboard">Dashboard</Link>
-        <Link to="/projects">Projects</Link>
+        {/* <Link to="/projects">Projects</Link> */}
         <Link to="/users">Users</Link>
         <Link to="/admin-tasks">All Tasks</Link>
         <button
