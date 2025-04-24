@@ -34,3 +34,10 @@ export const updateProjectById = async (id, data, token) => {
     },
   });
 };
+
+//delete project
+export const deleteProjectById = (projectId, token) => {
+  return axios.delete(`${BASE_URL}/projects/${projectId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

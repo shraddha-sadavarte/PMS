@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../styles/navbar.css";
 
 const AdminNavbar = () => {
+
+  const navigate = useNavigate();
+  
+  const handleLogout = () => {
+    localStorage.clear();  //  Clears ALL localStorage data
+    navigate("/login", { replace: true });  //  Redirect to login
+  };
+
   return (
     <nav className="navbar">
       <div className="logo">Admin Panel</div>
@@ -13,10 +21,7 @@ const AdminNavbar = () => {
         <Link to="/admin-tasks">All Tasks</Link>
         <button
           className="logout-button"
-          onClick={() => {
-            localStorage.clear();
-            window.location.href = "/login";
-          }}
+          onClick={handleLogout}
         >
           Logout
         </button>

@@ -3,6 +3,7 @@ import {
   getProjects,
   createProject,
   updateProjectById,
+  deleteProjectById
 } from "../api/projectApi";
 import { getUsers } from "../api/userApi";
 import AdminNavbar from "../components/AdminNavbar";
@@ -22,8 +23,8 @@ const AdminDashboard = () => {
   const [editMode, setEditMode] = useState(false);
   const [editingProjectId, setEditingProjectId] = useState(null);
 
-  const token = localStorage.getItem("token");
-
+ const token = localStorage.getItem("token");
+ 
   // Fetch all projects and users
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +102,24 @@ const AdminDashboard = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleDelete = async (projectId) => {
+    const confirm = window.confirm("Are you sure you want to delete this project?");
+    if (!confirm) return;
+  
+    try {
+      await deleteProjectById(projectId, token);
+      toast.success("Project deleted successfully!");
+  
+      // Refresh list
+      const updated = await getProjects(token, true);
+      setProjects(updated.data);
+    } catch (err) {
+      console.error("Delete error:", err);
+      toast.error("Failed to delete project.");
+    }
+  };
+  
+
   return (
     <>
       <AdminNavbar />
@@ -176,6 +195,9 @@ const AdminDashboard = () => {
                 </ul>
                 <button className="edit-btn" onClick={() => handleEditClick(project)}>
                   Edit
+                </button>
+                <button className="delete-btn" onClick={() => handleDelete(project._id)}>
+                  Delete
                 </button>
               </div>
             ))}

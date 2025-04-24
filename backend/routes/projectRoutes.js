@@ -5,6 +5,7 @@ import {
   getAllProjects,
   updateProjectProgress,
   updateProject,
+  deleteProject
 } from "../controllers/projectController.js";
 import { verifyToken, isAdmin } from "../middleware/authMiddleware.js"
 
@@ -19,5 +20,7 @@ router.get("/user", verifyToken, getUserProjects);
 router.put("/:projectId/progress", verifyToken, updateProjectProgress);
 
 router.put("/:id", verifyToken, isAdmin, updateProject);
+
+router.delete("/:id", verifyToken, isAdmin, deleteProject);
 
 export default router;

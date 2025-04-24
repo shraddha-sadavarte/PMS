@@ -17,17 +17,16 @@ export const register = async (req,res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-        console.log("Login attempt for email:", email); // <--- ADD THIS LOG
 
         const user = await User.findOne({ email });
         if (!user) {
-            console.log("User not found for email:", email); // <--- ADD THIS LOG
+            // console.log("User not found for email:", email); // <--- ADD THIS LOG
             return res.status(400).json({ message: "User not found" });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            console.log("Password does not match for user:", email); // <--- ADD THIS LOG
+            // console.log("Password does not match for user:", email); // <--- ADD THIS LOG
             return res.status(400).json({ message: "Invalid Credentials" });
         }
 
@@ -42,7 +41,7 @@ export const login = async (req, res) => {
             }
         );
 
-        console.log("Login successful for user:", email, " - Token:", accessToken); // <--- ADD THIS LOG
+        // console.log("Login successful for user:", email, " - Token:", accessToken); // <--- ADD THIS LOG
         res.json({ accessToken, role: user.role });
 
     } catch (err) {

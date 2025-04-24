@@ -8,11 +8,23 @@ import Tasks from "./pages/Tasks";
 import Users from "./pages/Users";
 import AdminTasks from "./pages/AdminTasks";
 import ToastNotification from "./components/ToastNotification";
+import { useState, useEffect } from "react";
 
 const isAuthenticated = () => !!localStorage.getItem("token");
 const userRole = () => localStorage.getItem("role");
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [role, setRole] = useState(localStorage.getItem("role"));
+
+  // Sync token from localStorage
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    const storedRole = localStorage.getItem("role");
+    setToken(storedToken);
+    setRole(storedRole);
+  }, []);
+
   return (
     <Router>
       <ToastNotification />
