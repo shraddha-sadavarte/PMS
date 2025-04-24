@@ -7,6 +7,7 @@ import {
 import { getUsers } from "../api/userApi";
 import AdminNavbar from "../components/AdminNavbar";
 import "../styles/admin.css";
+import { toast } from "react-toastify"; // ✅ Import toast
 
 const AdminDashboard = () => {
   const [projects, setProjects] = useState([]);
@@ -27,13 +28,14 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const projectRes = await getProjects(token, true); // true => admin
+        const projectRes = await getProjects(token, true);
         setProjects(projectRes.data);
 
         const userRes = await getUsers(token);
         setUsers(userRes.data);
       } catch (err) {
         console.error("Error loading data:", err);
+        toast.error("Failed to load users or projects.");
       }
     };
 
@@ -61,10 +63,10 @@ const AdminDashboard = () => {
     try {
       if (editMode && editingProjectId) {
         await updateProjectById(editingProjectId, formData, token);
-        alert("Project updated successfully!");
+        toast.success("Project updated successfully ✅");
       } else {
         await createProject(formData, token);
-        alert("Project created successfully!");
+        toast.success("Project created successfully ✅");
       }
 
       // Reset form and reload
@@ -76,6 +78,7 @@ const AdminDashboard = () => {
       setProjects(updated.data);
     } catch (err) {
       console.error("Error submitting form:", err);
+      toast.error("Failed to submit project. Try again.");
     }
   };
 
@@ -83,21 +86,20 @@ const AdminDashboard = () => {
   const handleEditClick = (project) => {
     setEditMode(true);
     setEditingProjectId(project._id);
-  
+
     const assignedToArray = Array.isArray(project.assignedTo)
       ? project.assignedTo
-      : [project.assignedTo]; // fallback if it's a single object or string
-  
+      : [project.assignedTo];
+
     setFormData({
       name: project.name || "",
       description: project.description || "",
       deadline: project.deadline ? project.deadline.slice(0, 10) : "",
       assignedTo: assignedToArray.map((u) => u._id || u),
     });
-  
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  
 
   return (
     <>

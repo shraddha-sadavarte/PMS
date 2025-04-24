@@ -7,6 +7,7 @@ import Projects from "./components/projects/Projects";
 import Tasks from "./pages/Tasks";
 import Users from "./pages/Users";
 import AdminTasks from "./pages/AdminTasks";
+import ToastNotification from "./components/ToastNotification";
 
 const isAuthenticated = () => !!localStorage.getItem("token");
 const userRole = () => localStorage.getItem("role");
@@ -14,20 +15,17 @@ const userRole = () => localStorage.getItem("role");
 function App() {
   return (
     <Router>
+      <ToastNotification />
       <Routes>
         <Route path="/" element={<Navigate to="/register" />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-
-        {/* User Routes */}
         <Route path="/user-dashboard" element={isAuthenticated() && userRole() === "user" ? <UserDashboard /> : <Navigate to="/login" />} />
         <Route path="/tasks" element={isAuthenticated() && userRole() === "user" ? <Tasks /> : <Navigate to="/login" />} />
-
-        {/* Admin Routes */}
         <Route path="/admin-dashboard" element={isAuthenticated() && userRole() === "admin" ? <AdminDashboard /> : <Navigate to="/login" />} />
         <Route path="/projects" element={isAuthenticated() && userRole() === "admin" ? <Projects /> : <Navigate to="/login" />} />
         <Route path="/users" element={isAuthenticated() && userRole() === "admin" ? <Users /> : <Navigate to="/login" />} />
-        <Route path="/admin-tasks" element={<AdminTasks/>} />
+        <Route path="/admin-tasks" element={<AdminTasks />} />
       </Routes>
     </Router>
   );
