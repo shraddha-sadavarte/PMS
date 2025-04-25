@@ -37,7 +37,7 @@ const Login = () => {
         toast.success("Login successful");
   
         // ❗️Force reload to trigger App.jsx useEffect and re-check token
-        window.location.href = role === "admin" ? "/admin-dashboard" : "/user-dashboard";
+        window.location.href = role === "admin" ? "/dashboards" : "/user-dashboard";
       } else {
         toast.error("Invalid response from server");
       }

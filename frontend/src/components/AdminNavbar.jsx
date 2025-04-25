@@ -15,7 +15,8 @@ const AdminNavbar = () => {
     <nav className="navbar">
       <div className="logo">Admin Panel</div>
       <div className="nav-links">
-        <Link to="/admin-dashboard">Dashboard</Link>
+        <Link to="/dashboards">Dashboard</Link>
+        <Link to="/admin-dashboard">Projects</Link>
         {/* <Link to="/projects">Projects</Link> */}
         <Link to="/users">Users</Link>
         <Link to="/admin-tasks">All Tasks</Link>
